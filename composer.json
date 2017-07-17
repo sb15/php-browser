@@ -1,0 +1,25 @@
+{
+    "name": "sb15/php-browser",
+    "type": "library",
+    "description": "Php browser",
+    "keywords": ["browser"],
+    "homepage": "https://github.com/sb15/php-browser",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexander Perov",
+            "email": "alex@sb6.ru"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Sb\\": "src"
+        }
+    },
+    "require": {
+        "sb15/php-simple-html-dom-parser": "v1.5.0",
+        "sb15/utils": "dev-master",
+        "guzzlehttp/guzzle": "^6.3",
+        "sb15/xml-string-to-php-array": "^0.0.1"
+    }
+}
