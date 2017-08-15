@@ -12,8 +12,12 @@ class Dom
     /** @var \simple_html_dom */
     private $dom;
 
-    public function __construct($content)
+    public function __construct($content, $encoding = 'UTF-8')
     {
+        if ($encoding !== 'UTF-8') {
+            $content = mb_convert_encoding($content, 'UTF-8', $encoding);
+        }
+
         $this->content = $content;
         $this->dom = HtmlDomParser::str_get_html($content);
     }

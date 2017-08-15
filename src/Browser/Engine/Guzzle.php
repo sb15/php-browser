@@ -145,6 +145,24 @@ class Guzzle implements EngineInterface
         return $stat->getEffectiveUri();
     }
 
+    public function getEncoding()
+    {
+        $result = 'UTF-8';
+        $headers = $this->getHttpHeadersResponse();
+
+        if (isset($headers['Content-Type'])) {
+            $contentType = implode($headers['Content-Type'], ', ');
+            $contentTypeParts = explode(';', $contentType);
+            $charset = trim($contentTypeParts[1]);
+            $charsetParts = explode('=', $charset);
+            if ($charsetParts[0] === 'charset') {
+                $result = $charsetParts[1];
+            }
+        }
+
+        return $result;
+    }
+
     public function getHttpHeadersRequest()
     {
         $stat = $this->getCurrentStat();

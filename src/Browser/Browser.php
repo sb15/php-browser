@@ -26,6 +26,10 @@ class Browser
      */
     private $cache;
 
+    private $url;
+
+    private $responseHeaders;
+
     public function __construct(EngineInterface $engine)
     {
         $this->setEngine($engine);
@@ -84,17 +88,21 @@ class Browser
 
     public function getUrl()
     {
-        return $this->getEngine()->getUrl();
+        return $this->url;
     }
 
     public function getHtml()
     {
-        return $this->getEngine()->getHtml();
+        if (!$this->getDom()) {
+            return '';
+        }
+
+        return $this->getDom()->getContent();
     }
 
     public function getHttpHeadersResponse()
     {
-        return $this->getEngine()->getHttpHeadersResponse();
+        return $this->responseHeaders;
     }
 
     public function getDom()
@@ -116,10 +124,14 @@ class Browser
     public function get($url, array $options = [], $referer = null)
     {
         $this->dom = null;
+        $this->url = null;
+        $this->responseHeaders = null;
 
         if ($this->useCache() && $this->getCache()->exist($url)) {
             $html = $this->getCache()->load($url);
             $this->dom = new Dom($html);
+            $this->url = $url;
+            $this->responseHeaders = [];
             return;
         }
 
@@ -127,31 +139,47 @@ class Browser
 
         $html = $this->engine->getHtml();
         if ($this->useCache()) {
+
+            $encoding = $this->getEngine()->getEncoding();
+            if ($encoding !== 'UTF-8') {
+                $html = mb_convert_encoding($html, 'UTF-8', $encoding);
+            }
+
             $this->getCache()->save($url, $html);
         }
 
-        $this->dom = new Dom($html);
+        $this->dom = new Dom($html, $this->getEngine()->getEncoding());
+        $this->url = $this->getEngine()->getUrl();
+        $this->responseHeaders = $this->getEngine()->getHttpHeadersResponse();
     }
 
     public function post($url, array $params = [], array $options = [], $referer = null)
     {
         $this->dom = null;
+        $this->url = null;
+        $this->responseHeaders = null;
 
         $this->engine->post($url, $params, $options, $referer);
 
-        $this->dom = new Dom($this->engine->getHtml());
+        $this->dom = new Dom($this->engine->getHtml(), $this->getEngine()->getEncoding());
+        $this->url = $this->getEngine()->getUrl();
+        $this->responseHeaders = $this->getEngine()->getHttpHeadersResponse();
     }
 
     public function submitForm(Form $form, array $options = [], $referer = null)
     {
         $this->dom = null;
+        $this->url = null;
+        $this->responseHeaders = null;
 
         $formAction = $this->resolveUri($form->getAction(), $this->getUrl());
         $form->setAction($formAction);
 
         $this->engine->submitForm($form, $options, $referer);
 
-        $this->dom = new Dom($this->engine->getHtml());
+        $this->dom = new Dom($this->engine->getHtml(), $this->getEngine()->getEncoding());
+        $this->url = $this->getEngine()->getUrl();
+        $this->responseHeaders = $this->getEngine()->getHttpHeadersResponse();
     }
 
     public function trace($includeResponseBody = false)

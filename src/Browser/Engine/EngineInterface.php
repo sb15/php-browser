@@ -18,6 +18,7 @@ interface EngineInterface
     public function getHttpHeadersResponse();
     public function getHtml();
     public function getRedirects();
+    public function getEncoding();
 
     public function trace($includeResponseBody = false);
 }
