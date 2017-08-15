@@ -25,7 +25,7 @@ class Dom
      */
     public function find($selector, $dom = null)
     {
-        if (is_null($dom)) {
+        if (null === $dom) {
             $dom = $this->dom;
         }
 
@@ -39,7 +39,7 @@ class Dom
      */
     public function findFirst($selector, $dom = null)
     {
-        if (is_null($dom)) {
+        if (null === $dom) {
             $dom = $this->dom;
         }
 
@@ -54,7 +54,7 @@ class Dom
      */
     public function findNElement($selector, $idx, $dom = null)
     {
-        if (is_null($dom)) {
+        if (null === $dom) {
             $dom = $this->dom;
         }
 
@@ -70,5 +70,13 @@ class Dom
     {
         return new Form($this->findFirst($selector, $dom));
     }
-    
+
+    /**
+     * @return string
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
 }

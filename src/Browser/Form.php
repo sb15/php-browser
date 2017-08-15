@@ -43,7 +43,7 @@ class Form
 
     private function isValid($dom)
     {
-        return $dom instanceof \simple_html_dom || $dom instanceof \simple_html_dom_node;
+        return !(!$dom instanceof \simple_html_dom && !$dom instanceof \simple_html_dom_node);
     }
 
     /**
@@ -85,7 +85,7 @@ class Form
 
     public function isDefaultEncoding()
     {
-        return $this->encoding == self::ENCODING_URLENCODED;
+        return $this->encoding === self::ENCODING_URLENCODED;
     }
 
     public function setNameValue($name, $value)
@@ -140,7 +140,7 @@ class Form
         return Psr7\UriResolver::resolve(Psr7\uri_for($baseUri), $formUri);
     }
 
-    public function getOptions($options = [])
+    public function getOptions(array $options = [])
     {
         if ($this->isDefaultEncoding()) {
             $options[RequestOptions::FORM_PARAMS] = $this->formParams;
