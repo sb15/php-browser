@@ -130,16 +130,6 @@ class Form
         $this->method = $method;
     }
 
-    /**
-     * @param UriInterface $baseUri
-     * @return UriInterface
-     */
-    public function resolveUri($baseUri)
-    {
-        $formUri = Psr7\uri_for($this->action === null ? '' : $this->action);
-        return Psr7\UriResolver::resolve(Psr7\uri_for($baseUri), $formUri);
-    }
-
     public function getOptions(array $options = [])
     {
         if ($this->isDefaultEncoding()) {

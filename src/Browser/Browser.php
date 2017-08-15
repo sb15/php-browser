@@ -2,9 +2,11 @@
 
 namespace Sb\Browser;
 
+use Psr\Http\Message\UriInterface;
 use Sb\Browser\Cache\CacheInterface;
 use Sb\Browser\Dom\Dom;
 use Sb\Browser\Engine\EngineInterface;
+use GuzzleHttp\Psr7;
 
 class Browser
 {
@@ -100,6 +102,17 @@ class Browser
         return $this->dom;
     }
 
+    /**
+     * @param string|UriInterface $uri
+     * @param string|UriInterface $baseUri
+     * @return string
+     */
+    public function resolveUri($uri, $baseUri)
+    {
+        $formUri = Psr7\uri_for($uri === null ? '' : $uri);
+        return (string) Psr7\UriResolver::resolve(Psr7\uri_for($baseUri), $formUri);
+    }
+
     public function get($url, array $options = [], $referer = null)
     {
         $this->dom = null;
@@ -132,6 +145,9 @@ class Browser
     public function submitForm(Form $form, array $options = [], $referer = null)
     {
         $this->dom = null;
+
+        $formAction = $this->resolveUri($form->getAction(), $this->getUrl());
+        $form->setAction($formAction);
 
         $this->engine->submitForm($form, $options, $referer);
 

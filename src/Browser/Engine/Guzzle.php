@@ -211,7 +211,7 @@ class Guzzle implements EngineInterface
             $options[RequestOptions::HEADERS]['Referer'] = $referer;
         }
 
-        $action = $form->resolveUri($this->getUri());
+        $action = $form->getAction();
         $method = $form->getMethod();
 
         $this->startNewRequest();
