@@ -18,6 +18,8 @@ class Form
     private $formParams = [];
     private $multipart = [];
 
+    private $baseUrl = '';
+
     /**
      * Form constructor.
      * @param \simple_html_dom_node $dom
@@ -98,6 +100,7 @@ class Form
                 'contents' => $value
             ];
         }
+        return $this;
     }
 
     public function __toString()
@@ -112,12 +115,17 @@ class Form
 
     public function getAction()
     {
+        if ($this->getBaseUrl()) {
+            return Browser::resolveUri($this->action, $this->getBaseUrl());
+        }
+
         return $this->action;
     }
 
     public function setAction($action)
     {
         $this->action = $action;
+        return $this;
     }
 
     public function getMethod()
@@ -128,6 +136,25 @@ class Form
     public function setMethod($method)
     {
         $this->method = $method;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBaseUrl()
+    {
+        return $this->baseUrl;
+    }
+
+    /**
+     * @param string $baseUrl
+     * @return Form
+     */
+    public function setBaseUrl($baseUrl)
+    {
+        $this->baseUrl = $baseUrl;
+        return $this;
     }
 
     public function getOptions(array $options = [])

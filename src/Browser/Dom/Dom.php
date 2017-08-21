@@ -12,7 +12,9 @@ class Dom
     /** @var \simple_html_dom */
     private $dom;
 
-    public function __construct($content, $encoding = 'UTF-8')
+    private $url;
+
+    public function __construct($content, $encoding = 'UTF-8', $url = '')
     {
         if ($encoding !== 'UTF-8') {
             $content = mb_convert_encoding($content, 'UTF-8', $encoding);
@@ -20,6 +22,7 @@ class Dom
 
         $this->content = $content;
         $this->dom = HtmlDomParser::str_get_html($content);
+        $this->url = $url;
     }
 
     /**
@@ -72,7 +75,9 @@ class Dom
      */
     public function findForm($selector, $dom = null)
     {
-        return new Form($this->findFirst($selector, $dom));
+        $form = new Form($this->findFirst($selector, $dom));
+        $form->setBaseUrl($this->url);
+        return $form;
     }
 
     /**

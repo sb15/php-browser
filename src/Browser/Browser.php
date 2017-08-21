@@ -115,7 +115,7 @@ class Browser
      * @param string|UriInterface $baseUri
      * @return string
      */
-    public function resolveUri($uri, $baseUri)
+    public static function resolveUri($uri, $baseUri)
     {
         $formUri = Psr7\uri_for($uri === null ? '' : $uri);
         return (string) Psr7\UriResolver::resolve(Psr7\uri_for($baseUri), $formUri);
@@ -129,7 +129,7 @@ class Browser
 
         if ($this->useCache() && $this->getCache()->exist($url)) {
             $html = $this->getCache()->load($url);
-            $this->dom = new Dom($html);
+            $this->dom = new Dom($html, 'UTF-8', $url);
             $this->url = $url;
             $this->responseHeaders = [];
             return;
@@ -148,7 +148,7 @@ class Browser
             $this->getCache()->save($url, $html);
         }
 
-        $this->dom = new Dom($html, $this->getEngine()->getEncoding());
+        $this->dom = new Dom($html, $this->getEngine()->getEncoding(), $this->getEngine()->getUrl());
         $this->url = $this->getEngine()->getUrl();
         $this->responseHeaders = $this->getEngine()->getHttpHeadersResponse();
     }
@@ -161,7 +161,7 @@ class Browser
 
         $this->engine->post($url, $params, $options, $referer);
 
-        $this->dom = new Dom($this->engine->getHtml(), $this->getEngine()->getEncoding());
+        $this->dom = new Dom($this->engine->getHtml(), $this->getEngine()->getEncoding(), $this->getEngine()->getUrl());
         $this->url = $this->getEngine()->getUrl();
         $this->responseHeaders = $this->getEngine()->getHttpHeadersResponse();
     }
@@ -172,12 +172,9 @@ class Browser
         $this->url = null;
         $this->responseHeaders = null;
 
-        $formAction = $this->resolveUri($form->getAction(), $this->getUrl());
-        $form->setAction($formAction);
-
         $this->engine->submitForm($form, $options, $referer);
 
-        $this->dom = new Dom($this->engine->getHtml(), $this->getEngine()->getEncoding());
+        $this->dom = new Dom($this->engine->getHtml(), $this->getEngine()->getEncoding(), $this->getEngine()->getUrl());
         $this->url = $this->getEngine()->getUrl();
         $this->responseHeaders = $this->getEngine()->getHttpHeadersResponse();
     }
