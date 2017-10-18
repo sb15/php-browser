@@ -3,13 +3,15 @@
 namespace Sb\Browser\Dom;
 
 use Sb\Browser\Form;
+use simplehtmldom_1_5\simple_html_dom;
+use simplehtmldom_1_5\simple_html_dom_node;
 use Sunra\PhpSimple\HtmlDomParser;
 
 class Dom
 {
     private $content;
 
-    /** @var \simple_html_dom */
+    /** @var simple_html_dom */
     private $dom;
 
     private $url;
@@ -27,8 +29,8 @@ class Dom
 
     /**
      * @param $selector
-     * @param \simple_html_dom_node|null $dom
-     * @return \simple_html_dom_node[]
+     * @param simple_html_dom_node|null $dom
+     * @return simple_html_dom_node[]
      */
     public function find($selector, $dom = null)
     {
@@ -41,8 +43,8 @@ class Dom
 
     /**
      * @param $selector
-     * @param \simple_html_dom_node/null $dom
-     * @return \simple_html_dom_node
+     * @param simple_html_dom_node|null $dom
+     * @return simple_html_dom_node
      */
     public function findFirst($selector, $dom = null)
     {
@@ -55,9 +57,9 @@ class Dom
 
     /**
      * @param $selector
-     * @param \simple_html_dom_node $dom
+     * @param simple_html_dom_node $dom
      * @param int $idx
-     * @return \simple_html_dom_node
+     * @return simple_html_dom_node
      */
     public function findNElement($selector, $idx, $dom = null)
     {
@@ -70,7 +72,7 @@ class Dom
 
     /**
      * @param $selector
-     * @param \simple_html_dom_node $dom
+     * @param simple_html_dom_node $dom
      * @return Form
      */
     public function findForm($selector, $dom = null)
