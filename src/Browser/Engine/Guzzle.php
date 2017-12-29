@@ -152,6 +152,9 @@ class Guzzle implements EngineInterface
 
         if (isset($headers['Content-Type'])) {
             $contentType = implode($headers['Content-Type'], ', ');
+            if (strpos($contentType, ';') === false) {
+                return $result;
+            }
             $contentTypeParts = explode(';', $contentType);
             $charset = trim($contentTypeParts[1]);
             $charsetParts = explode('=', $charset);
