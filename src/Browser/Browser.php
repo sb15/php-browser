@@ -76,9 +76,9 @@ class Browser
         $this->getEngine()->setProxy($proxy);
     }
 
-    public function setCookiesFileLocation($file)
+    public function setCookiesFileLocation($file, $storeSessionCookies = false)
     {
-        $this->getEngine()->setCookiesFileLocation($file);
+        $this->getEngine()->setCookiesFileLocation($file, $storeSessionCookies);
     }
 
     public function getRedirects()

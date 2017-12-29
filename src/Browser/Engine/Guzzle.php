@@ -66,9 +66,9 @@ class Guzzle implements EngineInterface
             ]);
     }
 
-    public function setCookiesFileLocation($file)
+    public function setCookiesFileLocation($file, $storeSessionCookies = false)
     {
-        $jar = new FileCookieJar($file);
+        $jar = new FileCookieJar($file, $storeSessionCookies);
         $this->options = $this->mergeOptions($this->options, [
             RequestOptions::COOKIES => $jar
         ]);

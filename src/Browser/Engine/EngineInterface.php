@@ -12,7 +12,7 @@ interface EngineInterface
 
     public function setBrowserMockOptions();
     public function setProxy($proxy);
-    public function setCookiesFileLocation($file);
+    public function setCookiesFileLocation($file, $storeSessionCookies = false);
 
     public function getUrl();
     public function getHttpHeadersResponse();
