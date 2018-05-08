@@ -3,8 +3,8 @@
 namespace Sb\Browser;
 
 use GuzzleHttp\RequestOptions;
-use GuzzleHttp\Psr7;
-use Psr\Http\Message\UriInterface;
+use simplehtmldom_1_5\simple_html_dom;
+use simplehtmldom_1_5\simple_html_dom_node;
 
 class Form
 {
@@ -22,7 +22,7 @@ class Form
 
     /**
      * Form constructor.
-     * @param \simple_html_dom_node $dom
+     * @param simple_html_dom_node $dom
      */
     public function __construct($dom = null)
     {
@@ -45,11 +45,11 @@ class Form
 
     private function isValid($dom)
     {
-        return !(!$dom instanceof \simple_html_dom && !$dom instanceof \simple_html_dom_node);
+        return !(!$dom instanceof simple_html_dom && !$dom instanceof simple_html_dom_node);
     }
 
     /**
-     * @param \simple_html_dom_node $dom
+     * @param simple_html_dom_node $dom
      * @return $this
      */
     public function fromDom($dom)
@@ -73,7 +73,7 @@ class Form
         }
 
         $inputs = $dom->find('input');
-        /** @var \simple_html_dom_node[] $inputs  */
+        /** @var simple_html_dom_node[] $inputs  */
         foreach ($inputs as $input) {
             $inputType = $input->getAttribute('type');
             $inputName = $input->getAttribute('name');
@@ -106,7 +106,7 @@ class Form
     public function __toString()
     {
         return
-        "Action: \"{$this->action}\"\n" .
+        "Action: \"{$this->getAction()}\"\n" .
         "Method: \"{$this->method}\"\n" .
         "Encoding: \"{$this->encoding}\"\n" .
         "Form Params: " . print_r($this->formParams, true) . "\n" .

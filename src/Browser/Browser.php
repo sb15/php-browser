@@ -76,6 +76,11 @@ class Browser
         $this->getEngine()->setProxy($proxy);
     }
 
+    public function setUserAgent($userAgent)
+    {
+        $this->getEngine()->setUserAgent($userAgent);
+    }
+
     public function setCookiesFileLocation($file, $storeSessionCookies = false)
     {
         $this->getEngine()->setCookiesFileLocation($file, $storeSessionCookies);

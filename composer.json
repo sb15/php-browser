@@ -17,7 +17,7 @@
         }
     },
     "require": {
-        "sb15/php-simple-html-dom-parser": "v1.5.2",
+        "sb15/simple-html-dom-parser-php": "^1.0",
         "guzzlehttp/guzzle": "^5.1 || ^6.3"
     }
 }
