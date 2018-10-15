@@ -77,8 +77,19 @@ class Form
         foreach ($inputs as $input) {
             $inputType = $input->getAttribute('type');
             $inputName = $input->getAttribute('name');
+            $inputValue = $input->getAttribute('value');
+
             if ($inputName) {
-                $this->setNameValue($inputName, $input->getAttribute('value'));
+                if ($inputType === 'checkbox') {
+                    if ($input->getAttribute('checked')) {
+                        if (!$inputValue) {
+                            $inputValue = 'on';
+                        }
+                        $this->setNameValue($inputName, $inputValue);
+                    }
+                } else {
+                    $this->setNameValue($inputName, $input->getAttribute('value'));
+                }
             }
         }
 
@@ -101,6 +112,13 @@ class Form
             ];
         }
         return $this;
+    }
+
+    public function removeParameter($name)
+    {
+        if (isset($this->formParams[$name])) {
+            unset($this->formParams[$name]);
+        }
     }
 
     public function __toString()

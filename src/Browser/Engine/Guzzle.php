@@ -62,8 +62,9 @@ class Guzzle implements EngineInterface
     {
         $this->options = $this->mergeOptions($this->options,
             [
-                RequestOptions::PROXY => 'tcp://' . $proxy
-            ]);
+                RequestOptions::PROXY => $proxy // 'tcp://'
+            ]
+        );
     }
 
 
