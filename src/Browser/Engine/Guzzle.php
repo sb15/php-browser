@@ -60,11 +60,7 @@ class Guzzle implements EngineInterface
 
     public function setProxy($proxy)
     {
-        $this->options = $this->mergeOptions($this->options,
-            [
-                RequestOptions::PROXY => $proxy // 'tcp://'
-            ]
-        );
+        $this->options[RequestOptions::PROXY] = $proxy;
     }
 
 
