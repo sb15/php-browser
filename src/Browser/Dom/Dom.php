@@ -3,15 +3,12 @@
 namespace Sb\Browser\Dom;
 
 use Sb\Browser\Form;
-use simplehtmldom_1_5\simple_html_dom;
-use simplehtmldom_1_5\simple_html_dom_node;
-use Sunra\PhpSimple\HtmlDomParser;
+use simplehtmldom\HtmlDocument;
 
 class Dom
 {
     private $content;
 
-    /** @var simple_html_dom */
     private $dom;
 
     private $url;
@@ -23,15 +20,10 @@ class Dom
         }
 
         $this->content = $content;
-        $this->dom = HtmlDomParser::str_get_html($content);
+        $this->dom = new HtmlDocument($content);
         $this->url = $url;
     }
 
-    /**
-     * @param $selector
-     * @param simple_html_dom_node|null $dom
-     * @return simple_html_dom_node[]
-     */
     public function find($selector, $dom = null)
     {
         if (null === $dom) {
@@ -41,11 +33,6 @@ class Dom
         return $dom->find($selector);
     }
 
-    /**
-     * @param $selector
-     * @param simple_html_dom_node|null $dom
-     * @return simple_html_dom_node
-     */
     public function findFirst($selector, $dom = null)
     {
         if (null === $dom) {
@@ -55,12 +42,6 @@ class Dom
         return $dom->find($selector, 0);
     }
 
-    /**
-     * @param $selector
-     * @param simple_html_dom_node $dom
-     * @param int $idx
-     * @return simple_html_dom_node
-     */
     public function findNElement($selector, $idx, $dom = null)
     {
         if (null === $dom) {
@@ -70,11 +51,6 @@ class Dom
         return $dom->find($selector, $idx);
     }
 
-    /**
-     * @param $selector
-     * @param simple_html_dom_node $dom
-     * @return Form
-     */
     public function findForm($selector, $dom = null)
     {
         $form = new Form($this->findFirst($selector, $dom));

@@ -17,7 +17,7 @@
         }
     },
     "require": {
-        "sb15/simple-html-dom-parser-php": "^1.0",
+        "simplehtmldom/simplehtmldom": "2.0-RC2",
         "guzzlehttp/guzzle": "^5.1 || ^6.3"
     }
 }
