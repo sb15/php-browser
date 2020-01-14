@@ -17,7 +17,7 @@
         }
     },
     "require": {
-        "simplehtmldom/simplehtmldom": "2.0-RC2",
+        "simplehtmldom/simplehtmldom": "2.0-RC2 as 2.0.0",
         "guzzlehttp/guzzle": "^5.1 || ^6.3"
     }
 }
