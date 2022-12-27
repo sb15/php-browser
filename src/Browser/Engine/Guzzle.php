@@ -159,7 +159,11 @@ class Guzzle implements EngineInterface
         $headers = $this->getHttpHeadersResponse();
 
         if (isset($headers['Content-Type'])) {
-            $contentType = implode($headers['Content-Type'], ', ');
+            if (is_array($headers['Content-Type'])) {
+                $contentType = implode($headers['Content-Type'], ', ');
+            } else {
+                $contentType = $headers['Content-Type'];
+            }
             if (strpos($contentType, ';') === false) {
                 return $result;
             }
